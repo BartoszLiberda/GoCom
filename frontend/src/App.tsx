@@ -1,33 +1,28 @@
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { AuthProvider } from "@/context/AuthContext"
+import { ProtectedRoute, PublicRoute } from "./components/ProtectedRoute"
 
-function App() {
-  return (
-    <>
-      <div className="flex h-screen w-full items-center justify-center">
-        <Card className="p-7">
-            <Label htmlFor="email">Email</Label>
-            <Input
-                id="email"
-                type="email"
-                placeholder="Email"
-                required
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-                id="password"
-                type="password"
-                required
-            />
-            <Button type="submit" className="w-full">
-                Login
-            </Button>
-        </Card>
-      </div>
-    </>
-  )
+import LoginPage from "@/pages/LoginPage.tsx";
+import ChatDashboard from "@/pages/ChatDashboard.tsx";
+
+export default function App() {
+    return (
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+
+                    <Route element={<PublicRoute />}>
+                        <Route path="/login" element={<LoginPage />} />
+                    </Route>
+
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/channels/@me" element={<ChatDashboard />} />
+                        <Route path="/channels/:serverId/:channelId" element={<ChatDashboard />} />
+                    </Route>
+
+                    <Route path="*" element={<Navigate to="/channels/@me" replace />} />
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
+    );
 }
-
-export default App
