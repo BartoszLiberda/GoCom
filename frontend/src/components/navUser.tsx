@@ -35,7 +35,7 @@ export function NavUser({user,}: {
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <div className="flex ">
+                <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                         <Avatar className="h-8 w-8 rounded-lg">
                             <AvatarImage src={user.avatar} alt={user.name} />

@@ -3,7 +3,7 @@ import { AuthProvider } from "@/context/AuthContext"
 import { ProtectedRoute, PublicRoute } from "./components/ProtectedRoute"
 
 import LoginPage from "@/pages/LoginPage.tsx";
-import ChatDashboard from "@/pages/ChatDashboard.tsx";
+import Main from "@/pages/Main.tsx";
 
 export default function App() {
     return (
@@ -16,8 +16,8 @@ export default function App() {
                     </Route>
 
                     <Route element={<ProtectedRoute />}>
-                        <Route path="/channels/@me" element={<ChatDashboard />} />
-                        <Route path="/channels/:serverId/:channelId" element={<ChatDashboard />} />
+                        <Route path="/channels/@me" element={<Main />} />
+                        <Route path="/channels/:serverId/:channelId" element={<Main />} />
                     </Route>
 
                     <Route path="*" element={<Navigate to="/channels/@me" replace />} />

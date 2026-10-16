@@ -15,7 +15,12 @@ import {
     SidebarFooter,
 } from "@/components/ui/sidebar"
 
-import { Separator} from "@/components/ui/Separator"
+import {
+    IconServer,
+    IconUsers,
+} from "@tabler/icons-react"
+
+import { Separator } from "@/components/ui/Separator"
 
 import {NavUser} from "@/components/navUser.tsx";
 
@@ -30,31 +35,46 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar className="w-2/10 bg-zinc-900/20" collapsible="none" {...props}>
-            <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" >
-                            <h1 className="font-bold text-xl">Server Name</h1>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarHeader>
-            <Separator/>
-            <SidebarContent>
-                <SidebarGroup>
-
-                </SidebarGroup>
-            </SidebarContent>
-            <SidebarRail />
-            <Separator/>
-            <SidebarFooter>
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <NavUser user={data.user}></NavUser>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarFooter>
-        </Sidebar>
+        <div className="w-2/10 flex bg-zinc-900/20">
+            <Sidebar collapsible="none" {...props}>
+                <SidebarHeader>
+                    <SidebarMenu>
+                        <div className="flex items-center justify-between">
+                            <SidebarMenuItem>
+                                <h1 className="font-bold text-xl">Server Name</h1>
+                            </SidebarMenuItem>
+                            <div className="flex items-center justify-around">
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton>
+                                        <IconServer className="!w-5 !h-5"/>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton>
+                                        <IconUsers className="!w-5 !h-5"/>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            </div>
+                        </div>
+                    </SidebarMenu>
+                </SidebarHeader>
+                <Separator/>
+                <SidebarContent>
+                    <SidebarGroup>
+                        <span>Server Channels / Direct Messages</span>
+                    </SidebarGroup>
+                </SidebarContent>
+                <SidebarRail />
+                <Separator/>
+                <SidebarFooter>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <NavUser user={data.user}></NavUser>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
+            </Sidebar>
+            <Separator orientation="vertical"/>
+        </div>
     )
 }
