@@ -37,7 +37,7 @@ export default function App() {
                 <Routes>
                     {setupRequired ? (
                         <>
-                            <Route path="/setup" element={<SetupPage />}/>
+                            <Route path="/setup" element={<SetupPage onSetupComplete={() => setSetupRequired(false)} />}/>
                             <Route path="*" element={<Navigate to="/setup" replace />}/>
                         </>
                     ) : (

@@ -11,9 +11,10 @@ import (
 )
 
 type SetupRequest struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	ServerName string `json:"serverName"`
+	Username   string `json:"username"`
+	Email      string `json:"email"`
+	Password   string `json:"password"`
 }
 
 func CheckSetupStatus(w http.ResponseWriter, r *http.Request) {
@@ -48,7 +49,7 @@ func PerformSetup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var req SetupRequest
-	if err = json.NewDecoder(r.Body).Decode(&req); err != nil || req.Username == "" || req.Email == "" || req.Password == "" {
+	if err = json.NewDecoder(r.Body).Decode(&req); err != nil || req.ServerName == "" || req.Username == "" || req.Email == "" || req.Password == "" {
 		http.Error(w, `{"error":"Invalid Request Payload"}`, http.StatusBadRequest)
 		return
 	}
@@ -66,6 +67,16 @@ func PerformSetup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer tx.Rollback(ctx)
+
+	_, err = tx.Exec(ctx, `
+        INSERT INTO server_settings (server_name) 
+        VALUES ($1)`,
+		req.ServerName,
+	)
+	if err != nil {
+		http.Error(w, `{"error":"Failed to configure server settings"}`, http.StatusInternalServerError)
+		return
+	}
 
 	var roleID int
 	err = tx.QueryRow(ctx, `

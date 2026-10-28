@@ -7,10 +7,15 @@ import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import { apiFetch } from "@/lib/api";
 
-export default function SetupPage() {
+interface SetupPageProps {
+    onSetupComplete: () => void
+}
+
+export default function SetupPage({ onSetupComplete }: SetupPageProps) {
     const { login } = useAuth()
     const navigate = useNavigate()
 
+    const [serverName, setServerName] = useState("")
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -25,11 +30,18 @@ export default function SetupPage() {
         try{
             await apiFetch('/setup' , {
                 method: "POST",
-                body: JSON.stringify({ email, username, password}),
+                body: JSON.stringify({ serverName, email, username, password}),
             })
 
-            login()
+            const loginResponse = await apiFetch('/login', {
+                method: "POST",
+                body: JSON.stringify({ email, password }),
+            })
+            
+            login(loginResponse.token, loginResponse.user)
+            onSetupComplete()
             navigate("/")
+
         } catch(err: any){
             setError(err.message || "Setup failed. Please try again")
         }finally{
@@ -43,13 +55,22 @@ export default function SetupPage() {
                 <div className="flex flex-col items-center justify-center pb-5">
                     <img src={goComLogo} alt="GoComLogo" height={100} width={100} />
                 </div>
-                <h1 className="flex justify-center font-bold text-lg pb-5">[Server_Name]</h1>
+                <h1 className="flex justify-center font-bold text-lg pb-5">Setup Your Server</h1>
                 {error && (
                     <div className="mb-4 text-sm text-red-500 text-center">
                         {error}
                     </div>
                 )}
                 <form onSubmit={handleSetup}>
+                    <Input
+                        className="p-4 mb-2"
+                        id="serverName"
+                        placeholder="Server Name"
+                        type="text"
+                        value={serverName}
+                        onChange={(e) => setServerName(e.target.value)}
+                        required
+                    />
                     <Input
                         className="p-4 mb-2"
                         id="email"

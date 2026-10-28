@@ -32,6 +32,7 @@ func main() {
 
 	mux.HandleFunc("GET /api/setup/status", handlers.CheckSetupStatus)
 	mux.HandleFunc("POST /api/setup", handlers.PerformSetup)
+	mux.HandleFunc("POST /api/login", handlers.Login)
 
 	port := os.Getenv("PORT")
 	if port == "" {

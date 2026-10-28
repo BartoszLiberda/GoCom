@@ -8,9 +8,9 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubButton,
-    SidebarMenuSubItem,
+    //SidebarMenuSub,
+    //SidebarMenuSubButton,
+    //SidebarMenuSubItem,
     SidebarRail,
     SidebarFooter,
 } from "@/components/ui/sidebar"
@@ -46,12 +46,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             <div className="flex items-center justify-around">
                                 <SidebarMenuItem>
                                     <SidebarMenuButton>
-                                        <IconServer className="!w-5 !h-5"/>
+                                        <IconServer className="w-5! h-5!"/>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                                 <SidebarMenuItem>
                                     <SidebarMenuButton>
-                                        <IconUsers className="!w-5 !h-5"/>
+                                        <IconUsers className="w-5! h-5!"/>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             </div>

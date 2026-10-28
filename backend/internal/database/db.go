@@ -2,13 +2,18 @@ package database
 
 import (
 	"context"
+	_ "embed"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 var DB *pgxpool.Pool
+
+//go:embed schema.sql
+var schemaSQL string
 
 func ConnectDB() error {
 	ctx := context.Background()
@@ -28,7 +33,27 @@ func ConnectDB() error {
 		return fmt.Errorf("could not ping database: %v", err)
 	}
 
+	if err := applySchema(ctx); err != nil {
+		return fmt.Errorf("failed to apply schema: %v", err)
+	}
+
 	fmt.Println("Connected to database")
+	return nil
+}
+
+func applySchema(ctx context.Context) error {
+	if strings.TrimSpace(schemaSQL) == "" {
+		return fmt.Errorf("schema.sql is empty or //go:embed failed to load it")
+	}
+
+	fmt.Printf("Loaded schema.sql (Length: %d bytes). Executing...\n", len(schemaSQL))
+
+	_, err := DB.Exec(ctx, schemaSQL)
+	if err != nil {
+		return fmt.Errorf("database rejected the schema: %v", err)
+	}
+
+	fmt.Println("Schema applied successfully")
 	return nil
 }
 

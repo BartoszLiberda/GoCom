@@ -50,10 +50,10 @@ export function NavUser({user,}: {
                     </div>
                     <div className="flex items-center px-1 py-1.5">
                         <SidebarMenuButton>
-                            <IconSettings className="!w-5 !h-5" />
+                            <IconSettings className="w-5! h-5!" />
                         </SidebarMenuButton>
                         <SidebarMenuButton onClick={handleLogout}>
-                            <IconLogout className="!w-5 !h-5 text-red-400 hover:text-red-300"/>
+                            <IconLogout className="w-5! h-5! text-red-400 hover:text-red-300"/>
                         </SidebarMenuButton>
                     </div>
                 </div>
