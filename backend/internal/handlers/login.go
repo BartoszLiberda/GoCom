@@ -5,14 +5,13 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/bartoszliberda/gocom-backend/internal/database"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
-
-var jwtSecretKey = []byte("")
 
 type LoginRequest struct {
 	Email    string `json:"email"`
@@ -61,6 +60,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `{"error":"Failed to generate token"}`, http.StatusInternalServerError)
 		return
 	}
+
+	jwtSecretKey := []byte(os.Getenv("JWT_SECRET"))
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": id,

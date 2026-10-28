@@ -33,6 +33,7 @@ func main() {
 	mux.HandleFunc("GET /api/setup/status", handlers.CheckSetupStatus)
 	mux.HandleFunc("POST /api/setup", handlers.PerformSetup)
 	mux.HandleFunc("POST /api/login", handlers.Login)
+	mux.Handle("/api/users/@me", middleware.AuthMiddleware(http.HandlerFunc(handlers.GerMe)))
 
 	port := os.Getenv("PORT")
 	if port == "" {
