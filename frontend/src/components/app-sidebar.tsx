@@ -24,15 +24,6 @@ import { Separator } from "@/components/ui/separator"
 
 import {NavUser} from "@/components/navUser.tsx";
 
-// sample data.
-const data = {
-    user: {
-        name: "Bartosz",
-        email: "Bartoszliberda@gmail.com",
-        avatar: "",
-    },
-}
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
         <div className="w-2/10 flex bg-zinc-900/20">
@@ -69,7 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarFooter>
                     <SidebarMenu>
                         <SidebarMenuItem>
-                            <NavUser user={data.user}></NavUser>
+                            <NavUser></NavUser>
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarFooter>

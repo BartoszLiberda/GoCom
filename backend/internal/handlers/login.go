@@ -23,6 +23,7 @@ type LoginResponse struct {
 	User  struct {
 		ID       int    `json:"id"`
 		Username string `json:"username"`
+		Email    string `json:"email"`
 	} `json:"user"`
 }
 
@@ -79,6 +80,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 	res.User.ID = id
 	res.User.Username = username
+	res.User.Email = req.Email
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(res)
