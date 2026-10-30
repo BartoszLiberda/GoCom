@@ -6,6 +6,8 @@ import { useEffect, useState} from "react"
 import LoginPage from "@/pages/LoginPage.tsx";
 import Main from "@/pages/Main.tsx";
 import SetupPage from "@/pages/SetupPage.tsx";
+import { ChannelView } from "./components/ChannelView";
+import RegisterPage from "@/pages/RegisterPage.tsx";
 
 import { apiFetch } from "@/lib/api.ts"
 
@@ -44,10 +46,19 @@ export default function App() {
                         <>
                             <Route element={<PublicRoute />}>
                                 <Route path="/login" element={<LoginPage />} />
+                                <Route path="/invite/:code" element={<RegisterPage />} />
                             </Route>
 
                             <Route element={<ProtectedRoute />}>
-                                <Route path="/channels/@me" element={<Main />} />
+                                <Route path="/channels/@me" element={<Main />}>
+                                    <Route index element={
+                                        <div className="flex-1 flex items-center justify-center text-muted-foreground bg-[#313338] h-full">
+                                            Select a channel to start chatting
+                                        </div>
+                                    } />
+                                    <Route path=":channelId" element={<ChannelView />} />
+                                </Route>
+
                                 <Route path="/channels/:serverId/:channelId" element={<Main />} />
                             </Route>
 

@@ -1,27 +1,23 @@
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-
-function MainContent(){
-
-    return (
-        <div className="flex h-screen w-full text-white">
-            <SidebarProvider>
-
-                <AppSidebar className="w-full h-screen text-white" />
-
-                <SidebarInset className="bg-zinc-950 text-white flex flex-col h-screen">
-                    <div className="flex justify-center items-center h-full w-full">
-                        Server Channel Chat / Direct Message Chat
-                    </div>
-                </SidebarInset>
-            </SidebarProvider>
-        </div>
-    )
-}
+import { Outlet } from "react-router-dom"
 
 export default function Main() {
-
     return (
-        <MainContent />
-    );
+        <SidebarProvider>
+            <div className="flex h-screen w-full bg-background overflow-hidden">
+                
+                <AppSidebar />
+                
+                <main className="flex-1 flex flex-col h-full relative">
+                    <div className="md:hidden p-4 border-b absolute top-0 left-0 z-10">
+                        <SidebarTrigger />
+                    </div>
+
+                    <Outlet />
+                </main>
+
+            </div>
+        </SidebarProvider>
+    )
 }

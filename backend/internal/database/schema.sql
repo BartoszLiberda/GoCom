@@ -70,3 +70,12 @@ CREATE TABLE IF NOT EXISTS attachments (
     file_size INT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS invites (
+    code VARCHAR(10) PRIMARY KEY,
+    creator_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    max_uses INTEGER DEFAULT 1, -- Set to 1 so the link expires after the person signs up
+    uses INTEGER DEFAULT 0,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
